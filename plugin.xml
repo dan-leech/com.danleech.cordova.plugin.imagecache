@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+		id="com.danleech.cordova.plugin.imagecache"
+		version="1.0.0">
+
+	<name>ImageCache</name>
+
+	<description>
+		This plugin allows you to cache images.
+	</description>
+
+	<license>MIT</license>
+
+	<keywords>Image cache, Android, iOS</keywords>
+
+	<engines>
+		<engine name="cordova" version=">=8.0.0" />
+	</engines>
+
+	<js-module src="www/QueueWorker.js" name="QueueWorker">
+		<clobbers target="window.QueueWorker" />
+	</js-module>
+
+	<js-module src="www/ImageCache.js" name="ImageCache">
+		<clobbers target="cordova.plugins.ImageCache" />
+	</js-module>
+
+	<!-- ios -->
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="ImageCachePlugin">
+				<param name="ios-package" value="ImageCachePlugin" />
+			</feature>
+		</config-file>
+
+		<header-file src="src/ios/ImageCachePlugin.h" />
+		<source-file src="src/ios/ImageCachePlugin.m" />
+	</platform>
+
+	<!-- android -->
+	<platform name="android">
+		<hook src="hooks/patch-android-studio-check.js" type="before_plugin_install" />
+		<hook src="hooks/patch-android-studio-check.js" type="before_plugin_add" />
+		<hook src="hooks/patch-android-studio-check.js" type="before_build" />
+		<hook src="hooks/patch-android-studio-check.js" type="before_run" />
+		<hook src="hooks/patch-android-studio-check.js" type="before_plugin_rm" />
+
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="ImageCachePlugin">
+				<param name="android-package" value="com.danleech.cordova.plugin.imagecache.ImageCachePlugin" />
+			</feature>
+		</config-file>
+
+		<source-file src="src/android/src/CallbackResponse.java" target-dir="src/com/danleech/cordova/plugin/imagecache" />
+		<source-file src="src/android/src/ImageCachePlugin.java" target-dir="src/com/danleech/cordova/plugin/imagecache" />
+	</platform>
+</plugin>
